@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   confirmGoogleOAuth(req) {
-    console.log('req', req);
     
     if (!req.user) {
       return 'No user from google'
