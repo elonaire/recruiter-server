@@ -12,10 +12,10 @@ const customOptions: SwaggerCustomOptions = {
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   const config = new DocumentBuilder()
-    .setTitle('Crowdlinker service')
-    .setDescription('Crowdlinker service to manage users, their roles and, their previleges.')
+    .setTitle('Recruiter Webservice')
+    .setDescription('Recruiter Webservice to manage users, their roles and, their previleges.')
     .setVersion('1.0')
-    .addTag('Crowdlinker')
+    .addTag('Recruiter Webservice')
     .addBearerAuth({ in: 'header', type: 'http' }, 'Authorization')
     .build();
     const document = SwaggerModule.createDocument(app, config);
