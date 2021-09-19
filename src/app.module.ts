@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 import { BlogModule } from './blog/blog.module';
+import { GoogleStrategy } from './auth/oauth/google.strategy';
 
 @Module({
   imports: [
@@ -21,6 +22,6 @@ import { BlogModule } from './blog/blog.module';
     BlogModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, GoogleStrategy],
 })
 export class AppModule {}
