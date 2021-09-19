@@ -35,4 +35,14 @@ export class AppController {
   googleAuthRedirect(@Req() req) {
     return this.appService.confirmGoogleOAuth(req)
   }
+
+  @Get('facebook-auth')
+  @UseGuards(AuthGuard('facebook'))
+  async facebookAuth(@Req() req) {}
+
+  @Get('facebook-auth/redirect')
+  @UseGuards(AuthGuard('facebook'))
+  facebookAuthRedirect(@Req() req) {
+    return this.appService.confirmFacebookOAuth(req)
+  }
 }

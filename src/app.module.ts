@@ -8,6 +8,7 @@ import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 import { BlogModule } from './blog/blog.module';
 import { GoogleStrategy } from './auth/oauth/google.strategy';
+import { FacebookStrategy } from './auth/oauth/facebook.strategy';
 
 @Module({
   imports: [
@@ -22,6 +23,6 @@ import { GoogleStrategy } from './auth/oauth/google.strategy';
     BlogModule,
   ],
   controllers: [AppController],
-  providers: [AppService, GoogleStrategy],
+  providers: [AppService, GoogleStrategy, FacebookStrategy],
 })
 export class AppModule {}
