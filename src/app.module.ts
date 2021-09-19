@@ -9,6 +9,8 @@ import { UsersModule } from './users/users.module';
 import { BlogModule } from './blog/blog.module';
 import { GoogleStrategy } from './auth/oauth/google.strategy';
 import { FacebookStrategy } from './auth/oauth/facebook.strategy';
+import { LinkedInStrategy } from './auth/oauth/linkedin.strategy';
+import { SessionSerializer } from './auth/session.serializer';
 
 @Module({
   imports: [
@@ -23,6 +25,6 @@ import { FacebookStrategy } from './auth/oauth/facebook.strategy';
     BlogModule,
   ],
   controllers: [AppController],
-  providers: [AppService, GoogleStrategy, FacebookStrategy],
+  providers: [AppService, GoogleStrategy, FacebookStrategy, LinkedInStrategy, SessionSerializer],
 })
 export class AppModule {}

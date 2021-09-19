@@ -45,4 +45,14 @@ export class AppController {
   facebookAuthRedirect(@Req() req) {
     return this.appService.confirmFacebookOAuth(req)
   }
+
+  @Get('linkedin-auth')
+  @UseGuards(AuthGuard('linkedin'))
+  async linkedInAuth(@Req() req) {}
+
+  @Get('linkedin-auth/redirect')
+  @UseGuards(AuthGuard('linkedin'))
+  linkedInAuthRedirect(@Req() req) {
+    return this.appService.confirmLinkedInOAuth(req)
+  }
 }

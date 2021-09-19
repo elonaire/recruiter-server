@@ -6,7 +6,7 @@ const customOptions: SwaggerCustomOptions = {
   swaggerOptions: {
     persistAuthorization: true,
   },
-  customSiteTitle: 'Crowdlinker Service',
+  customSiteTitle: 'Recruiter Webservice',
 };
 
 async function bootstrap() {
