@@ -11,6 +11,7 @@ import { GoogleStrategy } from './auth/oauth/google.strategy';
 import { FacebookStrategy } from './auth/oauth/facebook.strategy';
 import { LinkedInStrategy } from './auth/oauth/linkedin.strategy';
 import { SessionSerializer } from './auth/session.serializer';
+import { FileUploadModule } from './file-upload/file-upload.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { SessionSerializer } from './auth/session.serializer';
     }),
     ConfigModule.forRoot(),
     BlogModule,
+    FileUploadModule
   ],
   controllers: [AppController],
   providers: [AppService, GoogleStrategy, FacebookStrategy, LinkedInStrategy, SessionSerializer],
