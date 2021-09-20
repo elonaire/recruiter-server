@@ -3,6 +3,7 @@ import { BlogPost } from '../blog/blog.entity';
 import { SEQUELIZE } from '../constants';
 import { Role, User, UserRole } from '../users/user.entity';
 import { File } from '../file-upload/file.entity';
+import { JobPost } from '../jobs/jobs.entity';
 
 export const databaseProviders = [
   {
@@ -16,7 +17,7 @@ export const databaseProviders = [
         password: process.env.DATABASE_PWD,
         database: process.env.DATABASE,
       });
-      sequelize.addModels([User, Role, UserRole, BlogPost, File]);
+      sequelize.addModels([User, Role, UserRole, BlogPost, File, JobPost]);
       await sequelize.sync();
       return sequelize;
     },

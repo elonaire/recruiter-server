@@ -14,6 +14,7 @@ import { SessionSerializer } from './auth/session.serializer';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { MailingServiceModule } from './mailing-service/mailing-service.module';
 import {MailerModule as NodeMailerModule} from '@nestjs-modules/mailer';
+import { JobsModule } from './jobs/jobs.module';
 
 @Module({
   imports: [
@@ -40,7 +41,8 @@ import {MailerModule as NodeMailerModule} from '@nestjs-modules/mailer';
         from: process.env.SMTP_DEFAULT_SENDER,
       },
     }),
-    MailingServiceModule
+    MailingServiceModule,
+    JobsModule
   ],
   controllers: [AppController],
   providers: [AppService, GoogleStrategy, FacebookStrategy, LinkedInStrategy, SessionSerializer],
