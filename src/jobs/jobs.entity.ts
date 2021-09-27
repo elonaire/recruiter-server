@@ -29,7 +29,7 @@ export class Qualification extends Model<Qualification> {
   name: string;
 
   @BelongsToMany(() => JobPost, () => JobPostQualification)
-  jobPostQualifications: JobPostQualification[];
+  jobPosts: JobPost[];
 }
 
 @Table
@@ -42,7 +42,7 @@ export class FunctionM extends Model<FunctionM> {
   name: string;
 
   @BelongsToMany(() => JobPost, () => JobPostFunction)
-  jobPostFunctions: JobPostFunction[];
+  jobPosts: JobPost[];
 }
 
 @Table
@@ -55,7 +55,31 @@ export class Industry extends Model<Industry> {
   name: string;
 
   @BelongsToMany(() => JobPost, () => JobPostIndustry)
-  jobPostIndustries: JobPostIndustry[];
+  jobPosts: JobPost[];
+}
+
+@Table
+export class Location extends Model<Location> {
+  @Column({ primaryKey: true })
+  location_id: string;
+
+  @AllowNull(false)
+  @Column
+  name: string;
+
+  @BelongsToMany(() => JobPost, () => JobPostLocation)
+  jobPosts: JobPost[];
+}
+
+@Table
+export class JobPostLocation extends Model<JobPostLocation> {
+  @ForeignKey(() => JobPost)
+  @Column
+  job_id: string;
+
+  @ForeignKey(() => Location)
+  @Column
+  location_id: string;
 }
 
 @Table
@@ -113,6 +137,11 @@ export class FunctionDto {
 }
 
 export class IndustryDto {
+  @ApiProperty()
+  name: string;
+}
+
+export class LocationDto {
   @ApiProperty()
   name: string;
 }
