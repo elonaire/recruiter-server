@@ -1,6 +1,8 @@
-import { Table, Column, Model, ForeignKey, BelongsToMany, IsEmail, AllowNull, HasMany } from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, BelongsToMany, IsEmail, AllowNull, HasMany, BelongsTo } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { BlogPost } from 'src/blog/blog.entity';
+import { File } from 'src/file-upload/file.entity';
+import { Industry } from 'src/jobs/jobs.entity';
 
 @Table
 export class User extends Model<User> {
@@ -39,6 +41,26 @@ export class User extends Model<User> {
   @Column
   gender: string;
 
+  @AllowNull(true)
+  @Column
+  nationality: string;
+
+  @AllowNull(false)
+  @Column
+  country_code: string;
+
+  @AllowNull(true)
+  @Column
+  years_of_experience: string;
+
+  @AllowNull(true)
+  @Column
+  position_in_company: string;
+
+  @AllowNull(true)
+  @Column
+  availability: string;
+
   @AllowNull(false)
   @Column
   password: string;
@@ -49,6 +71,65 @@ export class User extends Model<User> {
   @HasMany(() => BlogPost)
   blogPosts: BlogPost[];
 
+  @HasMany(() => File)
+  userFiles: File[];
+
+}
+
+@Table
+export class Company extends Model<Company> {
+  @AllowNull(false)
+  @Column
+  name: string;
+
+  @Column({primaryKey: true})
+  company_id: string;
+
+  @AllowNull(false)
+  @Column
+  email: string;
+
+  @AllowNull(false)
+  @Column
+  phone: string;
+
+  @AllowNull(false)
+  @Column
+  address: string;
+
+  @AllowNull(false)
+  @Column
+  country_code: string;
+
+  @AllowNull(false)
+  @Column
+  website: string;
+
+  @AllowNull(false)
+  @Column
+  company_size: string;
+
+  @AllowNull(false)
+  @Column
+  company_type: string;
+
+  @AllowNull(false)
+  @Column
+  heard_about: string;
+
+  @ForeignKey(() => Industry)
+  @Column
+  industry_id: string;
+
+  @ForeignKey(() => User)
+  @Column
+  user_id: string;
+
+  @BelongsTo(() => Industry)
+  industry: Industry;
+
+  @BelongsTo(() => User)
+  user: User;
 }
 
 @Table
@@ -139,6 +220,18 @@ export class UserDto {
   gender: string;
 
   @ApiProperty()
+  nationality?: string;
+
+  @ApiProperty()
+  country_code?: string;
+
+  @ApiProperty()
+  years_of_experience?: string;
+
+  @ApiProperty()
+  availability?: string;
+
+  @ApiProperty()
   password: string;
 }
 
@@ -169,6 +262,18 @@ export class UserUpdateDto {
 
   @ApiProperty()
   gender: string;
+
+  @ApiProperty()
+  nationality?: string;
+
+  @ApiProperty()
+  country_code?: string;
+
+  @ApiProperty()
+  years_of_experience?: string;
+
+  @ApiProperty()
+  availability?: string;
 
   @ApiProperty()
   password: string;
