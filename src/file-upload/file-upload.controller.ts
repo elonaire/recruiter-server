@@ -6,12 +6,14 @@ import {
   Post,
   Query,
   UploadedFiles,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { FileUploadService } from './file-upload.service';
 import { FileDto } from './file.entity';
-import { ApiQuery } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 
 export interface FileInfo {
   fieldname: string;
@@ -28,6 +30,8 @@ export interface FileInfo {
 export class FileUploadController {
   constructor(private fileUploadService: FileUploadService) {}
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('Authorization')
   @Post('upload')
   @UseInterceptors(
     AnyFilesInterceptor({
@@ -54,6 +58,8 @@ export class FileUploadController {
     return this.fileUploadService.fetchFiles(...args);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('Authorization')
   @Delete(':file_id')
   deleteFile(@Param('file_id') fileId: string): any {
     return this.fileUploadService.deleteFile(fileId);

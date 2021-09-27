@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/auth.guard';
-import { JobPostDto } from './jobs.entity';
+import { FunctionDto, IndustryDto, JobPostDto, QualificationDto } from './jobs.entity';
 import { JobsService } from './jobs.service';
 
 @Controller('jobs')
@@ -27,5 +27,26 @@ export class JobsController {
   @Delete('delete/:id')
   deleteJobPosting(@Param('job_id') id: string): Promise<any> {
       return this.jobsService.deleteJobPost(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('Authorization')
+  @Post('add-qualification')
+  addQualification(@Body() qualification: QualificationDto): Promise<QualificationDto> {
+      return this.jobsService.addQualification(qualification);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('Authorization')
+  @Post('add-function')
+  addFunction(@Body() jobFunction: FunctionDto): Promise<FunctionDto> {
+      return this.jobsService.addFunction(jobFunction);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('Authorization')
+  @Post('add-industry')
+  addIndustry(@Body() industry: IndustryDto): Promise<IndustryDto> {
+      return this.jobsService.addIndustry(industry);
   }
 }
