@@ -1,4 +1,5 @@
-import { Table, Column, AllowNull, Model } from 'sequelize-typescript';
+import { Table, Column, AllowNull, Model, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { User } from 'src/users/user.entity';
 
 @Table
 export class File extends Model<File> {
@@ -28,6 +29,13 @@ export class File extends Model<File> {
   @AllowNull(false)
   @Column
   size: number;
+
+  @ForeignKey(() => User)
+  @Column
+  user_id: string;
+
+  @BelongsTo(() => User)
+  owner: User;
 }
 
 

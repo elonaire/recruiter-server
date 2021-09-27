@@ -1,5 +1,5 @@
-import { USERS_REPOSITORY, ROLES_REPOSITORY, USER_ROLES_REPOSITORY } from '../constants';
-import { Role, User, UserRole } from './user.entity';
+import { USERS_REPOSITORY, ROLES_REPOSITORY, USER_ROLES_REPOSITORY, COMPANY_REPOSITORY } from '../constants';
+import { Company, Role, User, UserRole } from './user.entity';
 
 export const usersProviders = [
   {
@@ -13,5 +13,9 @@ export const usersProviders = [
   {
     provide: USER_ROLES_REPOSITORY,
     useValue: UserRole,
+  },
+  {
+    provide: COMPANY_REPOSITORY,
+    useValue: Company,
   },
 ];

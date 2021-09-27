@@ -1,9 +1,9 @@
 import { Sequelize } from 'sequelize-typescript';
 import { BlogPost } from '../blog/blog.entity';
 import { SEQUELIZE } from '../constants';
-import { Role, User, UserRole } from '../users/user.entity';
+import { Company, Role, User, UserRole } from '../users/user.entity';
 import { File } from '../file-upload/file.entity';
-import { JobPost } from '../jobs/jobs.entity';
+import { FunctionM, Industry, JobPost, JobPostFunction, JobPostIndustry, JobPostLocation, JobPostQualification, Location, Qualification } from '../jobs/jobs.entity';
 
 export const databaseProviders = [
   {
@@ -17,7 +17,7 @@ export const databaseProviders = [
         password: process.env.DATABASE_PWD,
         database: process.env.DATABASE,
       });
-      sequelize.addModels([User, Role, UserRole, BlogPost, File, JobPost]);
+      sequelize.addModels([User, Role, UserRole, BlogPost, File, JobPost, Qualification, JobPostQualification, FunctionM, JobPostFunction, Industry, JobPostIndustry, Company, Location, JobPostLocation]);
       await sequelize.sync();
       return sequelize;
     },
