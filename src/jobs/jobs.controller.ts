@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/auth.guard';
-import { FunctionDto, IndustryDto, JobPostDto, QualificationDto } from './jobs.entity';
+import { FunctionDto, IndustryDto, JobPostDto, LocationDto, QualificationDto } from './jobs.entity';
 import { JobsService } from './jobs.service';
 
 @Controller('jobs')
@@ -48,5 +48,12 @@ export class JobsController {
   @Post('add-industry')
   addIndustry(@Body() industry: IndustryDto): Promise<IndustryDto> {
       return this.jobsService.addIndustry(industry);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('Authorization')
+  @Post('add-location')
+  addLocation(@Body() location: LocationDto): Promise<LocationDto> {
+      return this.jobsService.addLocation(location);
   }
 }
