@@ -1,6 +1,7 @@
 import { Table, Column, Model, ForeignKey, BelongsToMany, IsEmail, AllowNull, HasMany } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { BlogPost } from 'src/blog/blog.entity';
+import { File } from 'src/file-upload/file.entity';
 
 @Table
 export class User extends Model<User> {
@@ -41,6 +42,22 @@ export class User extends Model<User> {
 
   @AllowNull(false)
   @Column
+  nationality: string;
+
+  @AllowNull(false)
+  @Column
+  country_code: string;
+
+  @AllowNull(false)
+  @Column
+  years_of_experience: string;
+
+  @AllowNull(false)
+  @Column
+  availability: string;
+
+  @AllowNull(false)
+  @Column
   password: string;
 
   @BelongsToMany(() => Role, () => UserRole)
@@ -48,6 +65,9 @@ export class User extends Model<User> {
 
   @HasMany(() => BlogPost)
   blogPosts: BlogPost[];
+
+  @HasMany(() => File)
+  userFiles: File[];
 
 }
 
@@ -139,6 +159,18 @@ export class UserDto {
   gender: string;
 
   @ApiProperty()
+  nationality?: string;
+
+  @ApiProperty()
+  country_code?: string;
+
+  @ApiProperty()
+  years_of_experience?: string;
+
+  @ApiProperty()
+  availability?: string;
+
+  @ApiProperty()
   password: string;
 }
 
@@ -169,6 +201,18 @@ export class UserUpdateDto {
 
   @ApiProperty()
   gender: string;
+
+  @ApiProperty()
+  nationality?: string;
+
+  @ApiProperty()
+  country_code?: string;
+
+  @ApiProperty()
+  years_of_experience?: string;
+
+  @ApiProperty()
+  availability?: string;
 
   @ApiProperty()
   password: string;
