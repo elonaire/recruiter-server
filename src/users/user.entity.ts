@@ -192,6 +192,21 @@ export class UserResponse {
 
   @ApiProperty()
   gender: string;
+
+  @ApiProperty()
+  nationality?: string;
+
+  @ApiProperty()
+  country_code?: string;
+
+  @ApiProperty()
+  years_of_experience?: string;
+
+  @ApiProperty()
+  position_in_company?: string;
+
+  @ApiProperty()
+  availability?: string;
 }
 
 export class UserDto {
@@ -227,6 +242,9 @@ export class UserDto {
 
   @ApiProperty()
   years_of_experience?: string;
+
+  @ApiProperty()
+  position_in_company?: string;
 
   @ApiProperty()
   availability?: string;
@@ -271,6 +289,9 @@ export class UserUpdateDto {
 
   @ApiProperty()
   years_of_experience?: string;
+
+  @ApiProperty()
+  position_in_company?: string;
 
   @ApiProperty()
   availability?: string;
