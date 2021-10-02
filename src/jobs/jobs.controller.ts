@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { FunctionDto, IndustryDto, JobPostDto, LocationDto, QualificationDto } from './jobs.entity';
@@ -24,7 +24,7 @@ export class JobsController {
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
-  @Delete('delete/:id')
+  @Delete('delete/:job_id')
   deleteJobPosting(@Param('job_id') id: string): Promise<any> {
       return this.jobsService.deleteJobPost(id);
   }
@@ -55,5 +55,12 @@ export class JobsController {
   @Post('add-location')
   addLocation(@Body() location: LocationDto): Promise<LocationDto> {
       return this.jobsService.addLocation(location);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('Authorization')
+  @Get('fetch-configs')
+  getQualification(@Query('type') type: string): Promise<QualificationDto[] | LocationDto[] | IndustryDto[] | FunctionDto[]> {
+      return this.jobsService.fetchConfigurations(type);
   }
 }
