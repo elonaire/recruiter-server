@@ -47,4 +47,17 @@ export class JobsService {
         const location_id = uuidGenerator();
         return this.locationsRepository.create({...location, location_id});
     }
+
+    async fetchConfigurations(type: string): Promise<QualificationDto[] | LocationDto[] | IndustryDto[] | FunctionDto[]> {
+        switch (type) {
+            case 'qualifications':
+                return this.qualificationsRepository.findAll<Qualification>();
+            case 'locations':
+                return this.locationsRepository.findAll<JobPostLocation>();
+            case 'industries':
+                return this.industriesRepository.findAll<Industry>();
+            case 'functions':
+                return this.functionsRepository.findAll<FunctionM>();
+        }
+    }
 }
