@@ -37,7 +37,7 @@ export class JobsService {
   ) {}
 
   async fetchJobPosts(...params: any[]): Promise<JobPost[]> {
-    console.log('params', params);
+    // Advanced Job search
 
     let jobPosts;
     let allJobPromises: any = [];
