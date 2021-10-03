@@ -2,7 +2,7 @@ import { Table, Column, Model, ForeignKey, BelongsToMany, IsEmail, AllowNull, Ha
 import { ApiProperty } from '@nestjs/swagger';
 import { BlogPost } from 'src/blog/blog.entity';
 import { File } from 'src/file-upload/file.entity';
-import { Industry } from 'src/jobs/jobs.entity';
+import { Industry, JobPost } from 'src/jobs/jobs.entity';
 
 @Table
 export class User extends Model<User> {
@@ -73,6 +73,9 @@ export class User extends Model<User> {
 
   @HasMany(() => File)
   userFiles: File[];
+
+  @HasMany(() => JobPost)
+  userJobPosts: JobPost[];
 
 }
 
