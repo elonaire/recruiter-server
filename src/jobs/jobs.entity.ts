@@ -160,7 +160,7 @@ export class JobPostDto {
   job_level: string;
 
   @ApiProperty()
-  monthly_salary: number;
+  monthly_salary: string;
 
   @ApiProperty()
   openings: number;
