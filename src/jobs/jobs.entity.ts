@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Table, Column, AllowNull, Model, BelongsToMany, ForeignKey } from 'sequelize-typescript';
+import { Table, Column, AllowNull, Model, BelongsToMany, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { User } from 'src/users/user.entity';
 
 @Table
 export class JobPost extends Model<JobPost> {
@@ -8,7 +9,7 @@ export class JobPost extends Model<JobPost> {
 
   @AllowNull(false)
   @Column
-  name: string;
+  title: string;
 
   @AllowNull(false)
   @Column
@@ -16,7 +17,34 @@ export class JobPost extends Model<JobPost> {
 
   @AllowNull(false)
   @Column
-  location: string;
+  experience: string;
+
+  @AllowNull(false)
+  @Column
+  salary_currency: string;
+
+  @AllowNull(false)
+  @Column
+  job_level: string;
+
+  @AllowNull(false)
+  @Column
+  monthly_salary: number;
+
+  @AllowNull(false)
+  @Column
+  openings: number;
+
+  @AllowNull(false)
+  @Column
+  description: string;
+
+  @ForeignKey(() => User)
+  @Column
+  user_id: string;
+
+  @BelongsTo(() => User)
+  user: User;
 }
 
 @Table
@@ -117,13 +145,28 @@ export class JobPostQualification extends Model<JobPostQualification> {
 
 export class JobPostDto {
   @ApiProperty()
-  name: string;
+  title: string;
 
   @ApiProperty()
   type: string;
 
   @ApiProperty()
-  location: string;
+  experience: string;
+
+  @ApiProperty()
+  salary_currency: string;
+
+  @ApiProperty()
+  job_level: string;
+
+  @ApiProperty()
+  monthly_salary: number;
+
+  @ApiProperty()
+  openings: number;
+
+  @ApiProperty()
+  description: string;
 }
 
 export class QualificationDto {

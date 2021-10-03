@@ -50,7 +50,7 @@ export class UsersService {
     
         // verify role
         const roleFound = await this.rolesRepository.findOne<Role>({
-          where: { role: userInfo['role'] || 'USER' },
+          where: { role: userInfo['role'] },
         });
         if (!roleFound) {
           throw new HttpException(

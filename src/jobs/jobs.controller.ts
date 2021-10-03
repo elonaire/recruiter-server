@@ -1,66 +1,101 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/auth.guard';
-import { FunctionDto, IndustryDto, JobPostDto, LocationDto, QualificationDto } from './jobs.entity';
+import {
+  FunctionDto,
+  IndustryDto,
+  JobPostDto,
+  LocationDto,
+  QualificationDto,
+} from './jobs.entity';
 import { JobsService } from './jobs.service';
 
 @Controller('jobs')
 export class JobsController {
-  constructor(
-      private jobsService: JobsService,
-  ) {}
+  constructor(private jobsService: JobsService) {}
 
   @Get('')
-  getJobPostings(): Promise<JobPostDto[]> {
-      return this.jobsService.fetchJobPosts();
+  @ApiQuery({ name: 'qualification', required: false})
+  @ApiQuery({ name: 'industry', required: false})
+  @ApiQuery({ name: 'location', required: false})
+  @ApiQuery({ name: 'function', required: false})
+  getJobPostings(
+    @Query('qualification') qualification?: string,
+    @Query('industry') industry?: string,
+    @Query('location') location?: string,
+    @Query('function') jobFunction?: string
+  ): Promise<JobPostDto[]> {
+    const args = [{ qualification }, { industry }, { location }, { jobFunction }].filter(arg => {
+        const argKeys = Object.keys(arg);
+        
+        if (arg[argKeys[0]]) {
+          return arg;
+        }
+      });
+    return this.jobsService.fetchJobPosts(...args);
   }
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
   @Post('create-posting')
   createJob(@Body() job: JobPostDto): Promise<JobPostDto> {
-      return this.jobsService.createJobPost(job);
+    return this.jobsService.createJobPost(job);
   }
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
   @Delete('delete/:job_id')
   deleteJobPosting(@Param('job_id') id: string): Promise<any> {
-      return this.jobsService.deleteJobPost(id);
+    return this.jobsService.deleteJobPost(id);
   }
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
   @Post('add-qualification')
-  addQualification(@Body() qualification: QualificationDto): Promise<QualificationDto> {
-      return this.jobsService.addQualification(qualification);
+  addQualification(
+    @Body() qualification: QualificationDto
+  ): Promise<QualificationDto> {
+    return this.jobsService.addQualification(qualification);
   }
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
   @Post('add-function')
   addFunction(@Body() jobFunction: FunctionDto): Promise<FunctionDto> {
-      return this.jobsService.addFunction(jobFunction);
+    return this.jobsService.addFunction(jobFunction);
   }
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
   @Post('add-industry')
   addIndustry(@Body() industry: IndustryDto): Promise<IndustryDto> {
-      return this.jobsService.addIndustry(industry);
+    return this.jobsService.addIndustry(industry);
   }
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
   @Post('add-location')
   addLocation(@Body() location: LocationDto): Promise<LocationDto> {
-      return this.jobsService.addLocation(location);
+    return this.jobsService.addLocation(location);
   }
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
   @Get('fetch-configs')
-  getQualification(@Query('type') type: string): Promise<QualificationDto[] | LocationDto[] | IndustryDto[] | FunctionDto[]> {
-      return this.jobsService.fetchConfigurations(type);
+  getQualification(
+    @Query('type') type: string
+  ): Promise<
+    QualificationDto[] | LocationDto[] | IndustryDto[] | FunctionDto[]
+  > {
+    return this.jobsService.fetchConfigurations(type);
   }
 }
