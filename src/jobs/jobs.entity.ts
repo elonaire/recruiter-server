@@ -167,6 +167,14 @@ export class JobPostDto {
 
   @ApiProperty()
   description: string;
+
+  qualification_id: string;
+
+  function_id: string;
+
+  industry_id: string;
+
+  location_id: string;
 }
 
 export class QualificationDto {
