@@ -29,7 +29,7 @@ export class JobPost extends Model<JobPost> {
 
   @AllowNull(false)
   @Column
-  monthly_salary: number;
+  monthly_salary: string;
 
   @AllowNull(false)
   @Column
