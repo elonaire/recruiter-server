@@ -89,8 +89,8 @@ export class JobsController {
     return this.jobsService.addLocation(location);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('Authorization')
+//   @UseGuards(JwtAuthGuard)
+//   @ApiBearerAuth('Authorization')
   @Get('fetch-configs')
   getQualification(
     @Query('type') type: string
