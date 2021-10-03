@@ -3,6 +3,10 @@ import {
   FUNCTION_REPOSITORY,
   INDUSTRY_REPOSITORY,
   JOBS_REPOSITORY,
+  JOB_FUNCTION_REPOSITORY,
+  JOB_INDUSTRY_REPOSITORY,
+  JOB_LOCATION_REPOSITORY,
+  JOB_QUALIFICATION_REPOSITORY,
   LOCATION_REPOSITORY,
   QUALIFICATION_REPOSITORY,
 } from '../constants';
@@ -13,7 +17,10 @@ import {
   IndustryDto,
   JobPost,
   JobPostDto,
+  JobPostFunction,
+  JobPostIndustry,
   JobPostLocation,
+  JobPostQualification,
   Location,
   LocationDto,
   Qualification,
@@ -33,7 +40,15 @@ export class JobsService {
     @Inject(INDUSTRY_REPOSITORY)
     private readonly industriesRepository: typeof Industry,
     @Inject(LOCATION_REPOSITORY)
-    private readonly locationsRepository: typeof Location
+    private readonly locationsRepository: typeof Location,
+    @Inject(JOB_QUALIFICATION_REPOSITORY)
+    private readonly jobQualificationRepository: typeof JobPostQualification,
+    @Inject(JOB_LOCATION_REPOSITORY)
+    private readonly jobLocationRepository: typeof JobPostLocation,
+    @Inject(JOB_FUNCTION_REPOSITORY)
+    private readonly jobFunctionRepository: typeof JobPostFunction,
+    @Inject(JOB_INDUSTRY_REPOSITORY)
+    private readonly jobIndustryRepository: typeof JobPostIndustry,
   ) {}
 
   async fetchJobPosts(...params: any[]): Promise<JobPost[]> {
@@ -49,7 +64,7 @@ export class JobsService {
           >({ where: {qualification_id: param['qualification']} });
           if (!qualification) {
             throw new HttpException(
-                'No job match found!.',
+                'No job match found!',
                 HttpStatus.BAD_REQUEST,
               );
           }
@@ -60,7 +75,7 @@ export class JobsService {
           >({ where: {industry_id: param['industry']} });
           if (!industry) {
             throw new HttpException(
-                'No job match found!.',
+                'No job match found!',
                 HttpStatus.BAD_REQUEST,
               );
           }
@@ -71,7 +86,7 @@ export class JobsService {
           >({ where: {location_id: param['location']} });
           if (!location) {
             throw new HttpException(
-                'No job match found!.',
+                'No job match found!',
                 HttpStatus.BAD_REQUEST,
               );
           }
@@ -82,7 +97,7 @@ export class JobsService {
             >({ where: {function_id: param['jobFunction']} });
             if (!jobFunction) {
                 throw new HttpException(
-                    'No job match found!.',
+                    'No job match found!',
                     HttpStatus.BAD_REQUEST,
                   );
               }
@@ -99,7 +114,20 @@ export class JobsService {
 
   async createJobPost(post: JobPostDto): Promise<JobPost> {
     const job_id = uuidGenerator();
-    return this.jobsRepository.create({ ...post, job_id });
+    const job: JobPost = this.jobsRepository.create({ ...post, job_id });
+
+    if (!job) {
+      throw new HttpException(
+        'Job post not created!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    await this.jobQualificationRepository.create({job_id, qualification_id: post.qualification_id});
+    await this.jobLocationRepository.create({job_id, location_id: post.location_id});
+    await this.jobIndustryRepository.create({job_id, industry_id: post.industry_id});
+    await this.jobFunctionRepository.create({job_id, function_id: post.function_id});
+
+    return job;
   }
 
   async deleteJobPost(job_id: string): Promise<any> {

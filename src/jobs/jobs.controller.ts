@@ -13,6 +13,7 @@ import { JwtAuthGuard } from '../auth/auth.guard';
 import {
   FunctionDto,
   IndustryDto,
+  JobPost,
   JobPostDto,
   LocationDto,
   QualificationDto,
@@ -33,7 +34,7 @@ export class JobsController {
     @Query('industry') industry?: string,
     @Query('location') location?: string,
     @Query('function') jobFunction?: string
-  ): Promise<JobPostDto[]> {
+  ): Promise<JobPost[]> {
     const args = [{ qualification }, { industry }, { location }, { jobFunction }].filter(arg => {
         const argKeys = Object.keys(arg);
         
@@ -47,7 +48,7 @@ export class JobsController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('Authorization')
   @Post('create-posting')
-  createJob(@Body() job: JobPostDto): Promise<JobPostDto> {
+  createJob(@Body() job: JobPostDto): Promise<JobPost> {
     return this.jobsService.createJobPost(job);
   }
 
