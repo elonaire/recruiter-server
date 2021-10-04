@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { v4 as uuidGenerator } from 'uuid';
-import { UserRoleDto, Role, RoleDto, User, UserResponse, UserRole, UserUpdateDto, UserDto } from './user.entity';
+import { UserRoleDto, Role, RoleDto, User, UserResponse, UserRole, UserUpdateDto, UserDto, Company } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { Op } from 'sequelize';
 import {
@@ -69,18 +69,18 @@ export class UsersService {
         if (user) {
           // if is employer add company
           if (userInfo.company) {
-            await user.$add('userCompanies', uuidGenerator(), {
-              through: userInfo.company
-            });
+            const company_id = uuidGenerator();
+
+            const userCompany = new Company({company_id, user_id: user.user_id, ...userInfo.company});
           }
 
           if (otherRoles && otherRoles.length > 0) {
-            // inserting into UserRoles through-table)
+            // inserting/updating into UserRoles through-table)
             await user.$add('roles', userRole.role_id, {
               through: { isPrimary: false },
             });
           } else {
-            // inserting into UserRoles through-table)
+            // inserting/updating into UserRoles through-table)
             await user.$add('roles', userRole.role_id, {
               through: { isPrimary: true },
             });
