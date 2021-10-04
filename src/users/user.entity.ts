@@ -77,6 +77,9 @@ export class User extends Model<User> {
   @HasMany(() => JobPost)
   userJobPosts: JobPost[];
 
+  @HasMany(() => Company)
+  userCompanies: Company[];
+
 }
 
 @Table
@@ -254,6 +257,10 @@ export class UserDto {
 
   @ApiProperty()
   password: string;
+
+  company: CompanyDto;
+
+  user_id: string;
 }
 
 export class UserUpdateDto {

@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { v4 as uuidGenerator } from 'uuid';
-import { UserRoleDto, Role, RoleDto, User, UserResponse, UserRole, UserUpdateDto } from './user.entity';
+import { UserRoleDto, Role, RoleDto, User, UserResponse, UserRole, UserUpdateDto, UserDto } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { Op } from 'sequelize';
 import {
@@ -31,7 +31,7 @@ export class UsersService {
         @Inject(USER_ROLES_REPOSITORY) private userRolesRepository: typeof UserRole,
       ) {}
     
-      async registerUser(userInfo: UserInfo): Promise<any> {
+      async registerUser(userInfo: UserDto): Promise<any> {
         let userExists = null;
         userExists = await this.getSingleUser(
           ['username', 'email', 'phone'],
@@ -67,6 +67,13 @@ export class UsersService {
         const user: User = await this.usersRepository.create<User>(userInfo);
         const otherRoles = await user.$get('roles');
         if (user) {
+          // if is employer add company
+          if (userInfo.company) {
+            await user.$add('userCompanies', uuidGenerator(), {
+              through: userInfo.company
+            });
+          }
+
           if (otherRoles && otherRoles.length > 0) {
             // inserting into UserRoles through-table)
             await user.$add('roles', userRole.role_id, {
