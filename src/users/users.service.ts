@@ -71,7 +71,10 @@ export class UsersService {
           if (userInfo.company) {
             const company_id = uuidGenerator();
 
-            const userCompany = new Company({company_id, user_id: user.user_id, ...userInfo.company});
+            // const userCompany = new Company({company_id, user_id: user.user_id, ...userInfo.company});
+            await user.$add('userCompanies', company_id, {
+              through: userInfo.company,
+            });
           }
 
           if (otherRoles && otherRoles.length > 0) {
