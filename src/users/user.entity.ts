@@ -315,3 +315,32 @@ export class RoleDto {
   @ApiProperty()
   role: string;
 }
+
+export class CompanyDto {
+  @ApiProperty()
+  name: string;
+
+  @ApiProperty()
+  email: string;
+
+  @ApiProperty()
+  phone: string;
+
+  @ApiProperty()
+  address: string;
+
+  @ApiProperty()
+  country_code: string;
+
+  @ApiProperty()
+  website: string;
+
+  @ApiProperty()
+  company_size: string;
+
+  @ApiProperty()
+  company_type: string;
+
+  @ApiProperty()
+  heard_about: string;
+}
