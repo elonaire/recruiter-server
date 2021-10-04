@@ -229,7 +229,7 @@ export class UserDto {
   last_name: string;
 
   @ApiProperty()
-  dob: string;
+  dob?: string;
 
   @ApiProperty()
   phone: string;
