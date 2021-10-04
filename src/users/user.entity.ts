@@ -24,7 +24,7 @@ export class User extends Model<User> {
   @Column
   last_name: string;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column
   dob: string;
 
