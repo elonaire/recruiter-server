@@ -104,7 +104,8 @@ export class JobsService {
             return jobFunction.$get('jobPosts');
           }
       });
-      jobPosts = await Promise.all(allJobPromises);
+      const jobPostsPromised = await Promise.all(allJobPromises);
+      jobPosts = jobPostsPromised[0];
     } else {
       jobPosts = await this.jobsRepository.findAll();
     }
