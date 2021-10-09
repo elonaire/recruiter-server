@@ -4,6 +4,7 @@ import { UserRoleDto, Role, RoleDto, User, UserResponse, UserRole, UserUpdateDto
 import * as bcrypt from 'bcrypt';
 import { Op } from 'sequelize';
 import {
+  COMPANY_REPOSITORY,
   ROLES_REPOSITORY,
   USERS_REPOSITORY,
   USER_ROLES_REPOSITORY,
@@ -29,15 +30,17 @@ export class UsersService {
         @Inject(USERS_REPOSITORY) private usersRepository: typeof User,
         @Inject(ROLES_REPOSITORY) private rolesRepository: typeof Role,
         @Inject(USER_ROLES_REPOSITORY) private userRolesRepository: typeof UserRole,
+        @Inject(COMPANY_REPOSITORY) private companyRepository: typeof Company
       ) {}
     
       async registerUser(userInfo: UserDto): Promise<any> {
         let userExists = null;
         userExists = await this.getSingleUser(
-          ['username', 'email', 'phone'],
+          [ 'email', 'phone'],
           'either',
           userInfo,
         );
+        
         if (userExists) {
           throw new HttpException(
             'User with the same detail(s) already exists.',
@@ -68,13 +71,9 @@ export class UsersService {
         const otherRoles = await user.$get('roles');
         if (user) {
           // if is employer add company
-          if (userInfo.company) {
+          if (userInfo.company) {    
             const company_id = uuidGenerator();
-
-            // const userCompany = new Company({company_id, user_id: user.user_id, ...userInfo.company});
-            await user.$add('userCompanies', company_id, {
-              through: userInfo.company,
-            });
+            await this.companyRepository.create({...userInfo.company, company_id, user_id: user.user_id});
           }
 
           if (otherRoles && otherRoles.length > 0) {
