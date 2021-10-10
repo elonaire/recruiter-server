@@ -102,12 +102,14 @@ export class JobsService {
                   );
               }
             return jobFunction.$get('jobPosts');
+          } else {
+            return this.jobsRepository.findAll<JobPost>({where: param});
           }
       });
       const jobPostsPromised = await Promise.all(allJobPromises);
       jobPosts = jobPostsPromised[0];
     } else {
-      jobPosts = await this.jobsRepository.findAll();
+      jobPosts = await this.jobsRepository.findAll<JobPost>();
     }
     // return this.jobsRepository.findAll<JobPost>();
     return jobPosts;

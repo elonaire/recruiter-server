@@ -33,9 +33,12 @@ export class JobsController {
     @Query('qualification') qualification?: string,
     @Query('industry') industry?: string,
     @Query('location') location?: string,
-    @Query('function') jobFunction?: string
+    @Query('function') jobFunction?: string,
+    @Query('jobApproved') jobApproved?: string,
+    @Query('jobIsFeatured') jobIsFeatured?: string,
+    @Query('jobIsPopular') jobIsPopular?: string
   ): Promise<JobPost[]> {
-    const args = [{ qualification }, { industry }, { location }, { jobFunction }].filter(arg => {
+    const args = [{ qualification }, { industry }, { location }, { jobFunction }, {jobApproved}, {jobIsFeatured}, {jobIsPopular}].filter(arg => {
         const argKeys = Object.keys(arg);
         
         if (arg[argKeys[0]]) {

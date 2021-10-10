@@ -43,6 +43,14 @@ export class JobPost extends Model<JobPost> {
   @Column({defaultValue: false})
   jobApproved: boolean;
 
+  @AllowNull(false)
+  @Column({defaultValue: false})
+  jobIsFeatured: boolean;
+
+  @AllowNull(false)
+  @Column({defaultValue: false})
+  jobIsPopular: boolean;
+
   @ForeignKey(() => User)
   @Column
   user_id: string;
