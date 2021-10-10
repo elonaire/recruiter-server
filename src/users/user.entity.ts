@@ -62,6 +62,10 @@ export class User extends Model<User> {
   availability: string;
 
   @AllowNull(false)
+  @Column({defaultValue: true})
+  userApproved: boolean;
+
+  @AllowNull(false)
   @Column
   password: string;
 
