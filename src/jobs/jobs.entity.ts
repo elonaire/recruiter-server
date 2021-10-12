@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Table, Column, AllowNull, Model, BelongsToMany, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, AllowNull, Model, BelongsToMany, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
 import { User } from 'src/users/user.entity';
 
 @Table
@@ -54,6 +54,29 @@ export class JobPost extends Model<JobPost> {
   @ForeignKey(() => User)
   @Column
   user_id: string;
+
+  @BelongsTo(() => User)
+  user: User;
+
+  @HasMany(() => JobApplication)
+  jobApplications: JobApplication[];
+}
+
+@Table
+export class JobApplication extends Model<JobApplication> {
+  @Column({ primaryKey: true })
+  application_id: string;
+
+  @ForeignKey(() => JobPost)
+  @Column
+  job_id: string;
+
+  @ForeignKey(() => User)
+  @Column
+  user_id: string;
+
+  @BelongsTo(() => JobPost)
+  job: JobPost;
 
   @BelongsTo(() => User)
   user: User;
@@ -207,4 +230,10 @@ export class IndustryDto {
 export class LocationDto {
   @ApiProperty()
   name: string;
+}
+
+export class JobApplicationDto {
+  job_id: string;
+
+  user_id: string;
 }

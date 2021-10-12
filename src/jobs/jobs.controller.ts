@@ -13,6 +13,8 @@ import { JwtAuthGuard } from '../auth/auth.guard';
 import {
   FunctionDto,
   IndustryDto,
+  JobApplication,
+  JobApplicationDto,
   JobPost,
   JobPostDto,
   LocationDto,
@@ -101,5 +103,12 @@ export class JobsController {
     QualificationDto[] | LocationDto[] | IndustryDto[] | FunctionDto[]
   > {
     return this.jobsService.fetchConfigurations(type);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('Authorization')
+  @Post('apply')
+  apply(@Body() job: JobApplicationDto): Promise<JobApplication> {
+    return this.jobsService.apply(job);
   }
 }

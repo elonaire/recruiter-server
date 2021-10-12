@@ -1,5 +1,5 @@
-import { FUNCTION_REPOSITORY, INDUSTRY_REPOSITORY, JOBS_REPOSITORY, JOB_FUNCTION_REPOSITORY, JOB_INDUSTRY_REPOSITORY, JOB_LOCATION_REPOSITORY, JOB_QUALIFICATION_REPOSITORY, LOCATION_REPOSITORY, QUALIFICATION_REPOSITORY } from "../constants";
-import { FunctionM, Industry, JobPost, JobPostFunction, JobPostIndustry, JobPostLocation, JobPostQualification, Location, Qualification } from "./jobs.entity";
+import { FUNCTION_REPOSITORY, INDUSTRY_REPOSITORY, JOBS_REPOSITORY, JOB_APPLICATION_REPOSITORY, JOB_FUNCTION_REPOSITORY, JOB_INDUSTRY_REPOSITORY, JOB_LOCATION_REPOSITORY, JOB_QUALIFICATION_REPOSITORY, LOCATION_REPOSITORY, QUALIFICATION_REPOSITORY } from "../constants";
+import { FunctionM, Industry, JobApplication, JobPost, JobPostFunction, JobPostIndustry, JobPostLocation, JobPostQualification, Location, Qualification } from "./jobs.entity";
 
 export const jobProviders = [
     {
@@ -37,5 +37,9 @@ export const jobProviders = [
     {
       provide: JOB_LOCATION_REPOSITORY,
       useValue: JobPostLocation,
+    },
+    {
+      provide: JOB_APPLICATION_REPOSITORY,
+      useValue: JobApplication,
     }
   ];

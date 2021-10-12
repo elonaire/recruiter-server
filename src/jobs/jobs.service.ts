@@ -3,6 +3,7 @@ import {
   FUNCTION_REPOSITORY,
   INDUSTRY_REPOSITORY,
   JOBS_REPOSITORY,
+  JOB_APPLICATION_REPOSITORY,
   JOB_FUNCTION_REPOSITORY,
   JOB_INDUSTRY_REPOSITORY,
   JOB_LOCATION_REPOSITORY,
@@ -15,6 +16,8 @@ import {
   FunctionM,
   Industry,
   IndustryDto,
+  JobApplication,
+  JobApplicationDto,
   JobPost,
   JobPostDto,
   JobPostFunction,
@@ -49,6 +52,8 @@ export class JobsService {
     private readonly jobFunctionRepository: typeof JobPostFunction,
     @Inject(JOB_INDUSTRY_REPOSITORY)
     private readonly jobIndustryRepository: typeof JobPostIndustry,
+    @Inject(JOB_APPLICATION_REPOSITORY)
+    private readonly jobApplicationRepository: typeof JobApplication,
   ) {}
 
   async fetchJobPosts(...params: any[]): Promise<JobPost[]> {
@@ -180,4 +185,13 @@ export class JobsService {
         return this.functionsRepository.findAll<FunctionM>();
     }
   }
+
+  async apply(job: JobApplicationDto): Promise<JobApplication> {
+    const application_id = uuidGenerator();
+    const jobApplication: JobApplication = this.jobApplicationRepository.create({
+      ...job,
+      application_id,
+    });
+    return jobApplication;
+  } 
 }
