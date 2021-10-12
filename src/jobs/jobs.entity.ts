@@ -56,7 +56,7 @@ export class JobPost extends Model<JobPost> {
   user_id: string;
 
   @BelongsTo(() => User)
-  user: User;
+  employer: User;
 
   @HasMany(() => JobApplication)
   jobApplications: JobApplication[];
@@ -79,7 +79,7 @@ export class JobApplication extends Model<JobApplication> {
   job: JobPost;
 
   @BelongsTo(() => User)
-  user: User;
+  applicant: User;
 }
 
 @Table
@@ -233,7 +233,9 @@ export class LocationDto {
 }
 
 export class JobApplicationDto {
+  @ApiProperty()
   job_id: string;
 
+  @ApiProperty()
   user_id: string;
 }
