@@ -20,7 +20,7 @@ export class UsersController {
     constructor(private userService: UsersService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Roles(AuthRole.User)
+  @Roles(AuthRole.Admin)
   @ApiBearerAuth('Authorization')
   @Get('fetch')
   @ApiQuery({ name: 'user_id', required: false})

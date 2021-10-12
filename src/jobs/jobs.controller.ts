@@ -13,6 +13,8 @@ import { JwtAuthGuard } from '../auth/auth.guard';
 import {
   FunctionDto,
   IndustryDto,
+  JobApplication,
+  JobApplicationDto,
   JobPost,
   JobPostDto,
   LocationDto,
@@ -33,9 +35,12 @@ export class JobsController {
     @Query('qualification') qualification?: string,
     @Query('industry') industry?: string,
     @Query('location') location?: string,
-    @Query('function') jobFunction?: string
+    @Query('function') jobFunction?: string,
+    @Query('jobApproved') jobApproved?: boolean,
+    @Query('jobIsFeatured') jobIsFeatured?: boolean,
+    @Query('jobIsPopular') jobIsPopular?: boolean
   ): Promise<JobPost[]> {
-    const args = [{ qualification }, { industry }, { location }, { jobFunction }].filter(arg => {
+    const args = [{ qualification }, { industry }, { location }, { jobFunction }, {jobApproved}, {jobIsFeatured}, {jobIsPopular}].filter(arg => {
         const argKeys = Object.keys(arg);
         
         if (arg[argKeys[0]]) {
@@ -98,5 +103,12 @@ export class JobsController {
     QualificationDto[] | LocationDto[] | IndustryDto[] | FunctionDto[]
   > {
     return this.jobsService.fetchConfigurations(type);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('Authorization')
+  @Post('apply')
+  apply(@Body() job: JobApplicationDto): Promise<JobApplication> {
+    return this.jobsService.apply(job);
   }
 }

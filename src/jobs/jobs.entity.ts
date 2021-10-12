@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Table, Column, AllowNull, Model, BelongsToMany, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Table, Column, AllowNull, Model, BelongsToMany, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
 import { User } from 'src/users/user.entity';
 
 @Table
@@ -39,12 +39,47 @@ export class JobPost extends Model<JobPost> {
   @Column
   description: string;
 
+  @AllowNull(false)
+  @Column({defaultValue: false})
+  jobApproved: boolean;
+
+  @AllowNull(false)
+  @Column({defaultValue: false})
+  jobIsFeatured: boolean;
+
+  @AllowNull(false)
+  @Column({defaultValue: false})
+  jobIsPopular: boolean;
+
   @ForeignKey(() => User)
   @Column
   user_id: string;
 
   @BelongsTo(() => User)
-  user: User;
+  employer: User;
+
+  @HasMany(() => JobApplication)
+  jobApplications: JobApplication[];
+}
+
+@Table
+export class JobApplication extends Model<JobApplication> {
+  @Column({ primaryKey: true })
+  application_id: string;
+
+  @ForeignKey(() => JobPost)
+  @Column
+  job_id: string;
+
+  @ForeignKey(() => User)
+  @Column
+  user_id: string;
+
+  @BelongsTo(() => JobPost)
+  job: JobPost;
+
+  @BelongsTo(() => User)
+  applicant: User;
 }
 
 @Table
@@ -195,4 +230,12 @@ export class IndustryDto {
 export class LocationDto {
   @ApiProperty()
   name: string;
+}
+
+export class JobApplicationDto {
+  @ApiProperty()
+  job_id: string;
+
+  @ApiProperty()
+  user_id: string;
 }
